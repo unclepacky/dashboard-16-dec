@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Property {
+  id       String     @id @default(uuid())
+  name     String     @unique
+  building Building[]
+}
+
+model Building {
+  id   String @id @default(uuid())
+  name String @unique
+
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+
+  Unit Unit[]
+}
+
+model Unit {
+  id     String     @id @unique @default(uuid())
+  name   String     @unique
+  type   UnitType   @default(STUDIO)
+  status UnitStatus @default(VACANT)
+  block  Block      @default(A)
+
+  buildingId String
+  building   Building @relation(fields: [buildingId], references: [id])
+}
+
+// ******************************************************************
+// ENUM DECLARATIONS
+// ******************************************************************
+enum UnitStatus {
+  VACANT
+  OCCUPIED
+  MAINTENANCE
+  RESERVED
+}
+
+enum UnitType {
+  STUDIO
+  SUITE
+  J_SUITE
+  DUPLEX
+}
+
+enum Block {
+  A
+  B
+  C
+  D
+}

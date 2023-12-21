@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  ._dropDown {
+    @apply block rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500;
+  }
+  ._inputBox {
+    @apply block rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500;
+  }
+}
+
 input[type='number'] {
   -moz-appearance: textfield;
   appearance: textfield;
