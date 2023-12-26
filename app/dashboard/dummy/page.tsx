@@ -36,6 +36,7 @@ export default async function DummyPage({ searchParams }: searchParamsProps) {
     orderBy: orderBy,
     include: {
       building: true,
+      currency: true,
     },
   });
 
@@ -47,26 +48,3 @@ export default async function DummyPage({ searchParams }: searchParamsProps) {
     </>
   );
 }
-
-// import ListUnits from '@/app/ui/dashboard/dummy/ListUnits';
-// import StatusSelect from '@/app/ui/dashboard/dummy/StatusSelect';
-// import prisma from '@/prisma/client';
-// import React from 'react';
-
-// interface Props {
-//   searchParams: {
-//     query?: string;
-//   };
-// }
-
-// export default async function DummyPage({ searchParams }: Props) {
-//   const units = await prisma.unit.findMany();
-//   console.log(searchParams);
-//   return (
-//     <>
-//       <StatusSelect />
-//       <div>Dummy Page: query is: {searchParams.query}</div>
-//       <ListUnits query={searchParams.query || ''} />
-//     </>
-//   );
-// }

@@ -6,6 +6,7 @@ import {
   DocumentDuplicateIcon,
   CogIcon,
   ComputerDesktopIcon,
+  CurrencyDollarIcon,
 } from '@heroicons/react/24/outline';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
@@ -22,6 +23,7 @@ const links = [
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
   { name: 'Settings', href: '/dashboard/settings', icon: CogIcon },
   { name: 'Dummy', href: '/dashboard/dummy', icon: ComputerDesktopIcon },
+  { name: 'Currency', href: '/dashboard/currency', icon: CurrencyDollarIcon },
 ];
 
 export default function NavLinks() {

@@ -2,11 +2,20 @@ import UpdateUnit from './update-unit-dummy';
 import DeleteUnit from './delete-unit-dummy';
 import { Block, Unit, UnitStatus, UnitType } from '@prisma/client';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { ArrowUpIcon } from '@heroicons/react/24/outline';
+import {
+  ArrowUpIcon,
+  PlusIcon,
+  PresentationChartLineIcon,
+} from '@heroicons/react/24/outline';
+import UpdateRate from './update-daily-rate-dummy';
 
 interface Props {
   units: ({
+    currency: {
+      id: string;
+      code: string;
+      createdAt: Date;
+    } | null;
     building: {
       id: string;
       name: string;
@@ -19,6 +28,10 @@ interface Props {
     status: UnitStatus;
     block: Block;
     buildingId: string;
+    currencyId: string;
+
+    monthlyRate: number;
+    dailyRate: number;
   })[];
   searchParams: {
     status?: UnitStatus;
@@ -27,15 +40,16 @@ interface Props {
 }
 
 export default function ListUnitsV2({ units, searchParams }: Props) {
-  console.log(searchParams);
-
   const columns: { label: string; value: keyof Unit }[] = [
     // { label: 'Unit ID', value: 'id' },
-    { label: 'Building', value: 'buildingId' },
+    { label: 'Bldg', value: 'buildingId' },
     { label: 'Block', value: 'block' },
     { label: 'Status', value: 'status' },
     { label: 'Type', value: 'type' },
     { label: 'Name', value: 'name' },
+    { label: 'Currency', value: 'currencyId' },
+    { label: 'Monthly', value: 'monthlyRate' },
+    { label: 'Daily', value: 'dailyRate' },
   ];
   return (
     <div className="relative overflow-x-auto">
@@ -43,7 +57,7 @@ export default function ListUnitsV2({ units, searchParams }: Props) {
         <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             {columns.map((col) => (
-              <th key={col.value} scope="col" className="px-6 py-3">
+              <th key={col.value} scope="col" className="px-3 py-3">
                 {/* <Link href={`/dashboard/dummy?orderBy=${col.value}`}> */}
                 <Link
                   href={{
@@ -57,20 +71,29 @@ export default function ListUnitsV2({ units, searchParams }: Props) {
                 )}
               </th>
             ))}
+            <th>
+              <Link href="/dashboard/settings/unit">
+                <PlusIcon width={30} height={30} />
+              </Link>
+            </th>
           </tr>
         </thead>
         {units.map((unit, index) => (
           <tbody key={unit.id}>
             <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
-              <td className="px-6 py-4">{unit.building.name}</td>
-              <td className="px-6 py-4">{unit.block}</td>
-              <td className="px-6 py-4">{unit.status}</td>
-              <td className="px-6 py-4">{unit.type}</td>
-              <td className="px-6 py-4">{unit.name}</td>
-              <td className="px-6 py-4">
+              <td className="px-3 py-3">{unit.building.name}</td>
+              <td className="px-3 py-3">{unit.block}</td>
+              <td className="px-3 py-3">{unit.status}</td>
+              <td className="px-3 py-3">{unit.type}</td>
+              <td className="px-3 py-3">{unit.name}</td>
+              <td className="px-3 py-3">{unit.currency?.code}</td>
+              <td className="px-3 py-3">{unit.monthlyRate}</td>
+              <td className="px-3 py-3">{unit.dailyRate}</td>
+              <td className="px-3 py-3">
                 <div className="flex space-x-5">
                   <UpdateUnit id={unit.id} />
                   <DeleteUnit id={unit.id} />
+                  <UpdateRate id={unit.id} />
                 </div>
               </td>
             </tr>

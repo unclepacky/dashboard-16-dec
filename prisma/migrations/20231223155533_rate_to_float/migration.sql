@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "CurrencyConversionRate" ALTER COLUMN "rate" SET DATA TYPE DOUBLE PRECISION;

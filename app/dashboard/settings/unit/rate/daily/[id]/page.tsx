@@ -1,4 +1,4 @@
-import { updateUnit } from '@/action/unit';
+import { updateRate, updateUnit } from '@/action/unit';
 import { Button } from '@/app/ui/button';
 import prisma from '@/prisma/client';
 import {
@@ -9,7 +9,7 @@ import {
 import { Block, UnitStatus, UnitType } from '@prisma/client';
 import Link from 'next/link';
 
-export default async function EditUnitPage({
+export default async function DailyRatePage({
   params,
 }: {
   params: { id: string };
@@ -23,7 +23,6 @@ export default async function EditUnitPage({
     include: {
       building: true,
       currency: true,
-      rateHistory: true,
     },
   });
   return (
@@ -32,20 +31,21 @@ export default async function EditUnitPage({
         <div className="flex flex-col rounded-lg bg-gray-50 px-6 pb-4 pt-8 shadow-lg shadow-slate-300">
           <div className={`mb-3 flex flex-row items-center text-2xl`}>
             <BuildingStorefrontIcon className="pointer-events-none h-[24px] w-[24px]  text-gray-500 peer-focus:text-gray-900" />
-            <h1>Update Unit</h1>
+            <h1>Update Daily Rate</h1>
             <Link href="/dashboard/settings/unit" className="ml-auto">
               <PlusIcon width={24} height={24} />
             </Link>
           </div>
-          <form action={updateUnit} className="w-full">
+          <div></div>
+          <form action={updateRate} className="w-full">
             <div className="relative flex flex-col">
               <input name="id" type="text" defaultValue={unit?.id} hidden />
-              <input
+              {/* <input
                 name="buildingId"
                 type="text"
                 defaultValue={unit?.building.id}
                 hidden
-              />
+              /> */}
               <select
                 required
                 name="building"

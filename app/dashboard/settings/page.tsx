@@ -4,10 +4,6 @@ import Property from '@/app/ui/dashboard/settings/property';
 import Unit from '@/app/ui/dashboard/settings/unit';
 import UpdateProperty from '@/app/ui/dashboard/settings/update-property';
 import prisma from '@/prisma/client';
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { BuildingOffice2Icon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import React from 'react';
 
 interface Props {
   searchParams: {

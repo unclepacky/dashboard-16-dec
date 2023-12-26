@@ -7,6 +7,9 @@ const dummyUnit: Unit = {
   status: 'VACANT',
   block: 'A',
   buildingId: '',
+  monthlyRate: 0,
+  dailyRate: 0,
+  currencyId: '',
 };
 
 export function isKeyOfUnit(key: any): key is keyof Unit {

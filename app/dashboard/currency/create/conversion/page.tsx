@@ -1,41 +1,57 @@
+import { addConversionRate } from '@/action/currency';
 import { addUnit } from '@/action/unit';
 import { Button } from '@/app/ui/button';
 import prisma from '@/prisma/client';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { Block, UnitStatus, UnitType } from '@prisma/client';
 
-export default async function UnitPage() {
+export default async function CreateRateConversionPage() {
   const currencies = await prisma.currency.findMany();
-
-  const buildings = await prisma.building.findMany({
+  const conversionRate = await prisma.currencyConversionRate.findMany({
     include: {
-      unit: true
+      currency: true,
     },
   });
 
   return (
     <form
-      action={addUnit}
+      action={addConversionRate}
       className="flex flex-col gap-2 rounded-lg bg-gray-50 px-6 pb-4 pt-8 shadow-lg shadow-slate-300 md:w-full"
     >
       <h1 className={`mb-3 text-2xl`}>
-        Unit Form - Allows you to add Units to your Building
+        Rate Conversion Form - Allows you to add Currency Conversion Rate. The
+        Base Rate is USD
       </h1>
-      <div className="w-1/2">
-        <select
-          required
-          name="buildingId"
-          className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500"
-        >
-          {buildings.length > 0 &&
-            buildings.map((building) => (
-              <option key={building.id} value={building.id}>
-                {building.name}
+      <div className="flex w-full">
+        <span className="_inputBox w-1/4">1 USD</span>
+        <span className="_inputBox w-1/4">To</span>
+        <select required name="currencyId" className="_dropDown w-1/4">
+          {currencies.length > 0 &&
+            currencies.map((curr) => (
+              <option key={curr.id} value={curr.id}>
+                {curr.code}
               </option>
             ))}
         </select>
+        <div className="relative w-1/2">
+          <input
+            required
+            type="number"
+            step="0.01"
+            min="0"
+            max="1000000"
+            name="rate"
+            placeholder="Enter Conversion Rate"
+            className="_inputBox w-full"
+          />
+
+          {/* <UpdateProperty id={'10'} />
+          <DeleteProperty id={'10'} /> */}
+        </div>
       </div>
-      <div className="w-1/2">
+      <CreateBuildingButton />
+
+      {/* <div className="w-1/2">
         <select
           required
           name="status"
@@ -47,8 +63,8 @@ export default async function UnitPage() {
             </option>
           ))}
         </select>
-      </div>
-      <div className="w-1/2">
+      </div> */}
+      {/* <div className="w-1/2">
         <select
           required
           name="block"
@@ -60,8 +76,8 @@ export default async function UnitPage() {
             </option>
           ))}
         </select>
-      </div>
-      <div className="w-1/2">
+      </div> */}
+      {/* <div className="w-1/2">
         <select
           required
           name="type"
@@ -73,49 +89,20 @@ export default async function UnitPage() {
             </option>
           ))}
         </select>
-      </div>
+      </div> */}
 
-      <div className="relative w-1/2">
+      {/* <div className="relative w-1/2">
         <input
           required
           name="unit"
           placeholder="Enter Unit"
           className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500"
         />
-        <select
-          required
-          name="currency"
-          // defaultValue={unit?.currency.code}
-          className="peer block rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 md:w-1/2"
-        >
-          {currencies.map((curr) => (
-            <option key={curr.id} value={curr.id}>
-              {curr.code}
-            </option>
-          ))}
-        </select>
-        <input
-          name="defaultDailyRate"
-          type="number"
-          step="0.01"
-          min="0"
-          max="1000000"
-          placeholder="Enter the daily Rate"
-          className="peer block rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 md:w-1/2"
-        />
-        <input
-          name="defaultMonthlyRate"
-          type="number"
-          step="0.01"
-          min="0"
-          max="1000000"
-          placeholder="Enter the monthly Rate"
-          className="peer block rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 md:w-1/2"
-        />
+
         <CreateBuildingButton />
-        {/* <UpdateProperty id={'10'} />
-          <DeleteProperty id={'10'} /> */}
-      </div>
+        <UpdateProperty id={'10'} />
+          <DeleteProperty id={'10'} />
+      </div> */}
     </form>
   );
 }
@@ -129,4 +116,14 @@ function CreateBuildingButton() {
       Create ! <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
     </Button>
   );
+}
+
+{
+  /* <select name="unitStatus">
+{Object.values(UnitStatus).map((status) => (
+  <option key={status} value={status}>
+    {status}
+  </option>
+))}
+</select> */
 }

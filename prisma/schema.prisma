@@ -10,6 +10,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ******************************************************************
+// CURRENCY  - CONVERSION
+// ******************************************************************
+model Currency {
+  id                 String                   @id @default(uuid())
+  code               String                   @unique
+  createdAt          DateTime                 @default(now())
+  conversionRateLogs CurrencyConversionRate[]
+  unit               Unit[]
+  rateHistory        RateHistory[] // Reverse relation to PriceHistory
+}
+
+model CurrencyConversionRate {
+  id         String   @id @default(uuid())
+  currencyId String
+  currency   Currency @relation(fields: [currencyId], references: [id])
+  rate       Float // Daily conversion rate to the base currency (USD)
+  recordedAt DateTime @default(now()) // Date when the rate was recorded
+}
+
+// ******************************************************************
+// PROPERTY SECTIONS/PARTS
+// ******************************************************************
+
 model Property {
   id       String     @id @default(uuid())
   name     String     @unique
@@ -23,18 +47,60 @@ model Building {
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
 
-  Unit Unit[]
+  unit Unit[]
 }
 
 model Unit {
-  id     String     @id @unique @default(uuid())
-  name   String     @unique
-  type   UnitType   @default(STUDIO)
-  status UnitStatus @default(VACANT)
-  block  Block      @default(A)
+  id          String     @id @unique @default(uuid())
+  name        String     @unique
+  type        UnitType   @default(STUDIO)
+  status      UnitStatus @default(VACANT)
+  block       Block      @default(A)
+  monthlyRate Float      @default(0.0) // Most recent default price in USD
+  dailyRate   Float      @default(0.0) // Most recent default daily rate in USD
+
+  rateHistory RateHistory[]
+
+  currencyId String   @default("e69607d7-71d6-429d-b15e-d220201e7a20")
+  currency   Currency @relation(fields: [currencyId], references: [id])
 
   buildingId String
   building   Building @relation(fields: [buildingId], references: [id])
+}
+
+model RateHistory {
+  id           String   @id @default(uuid())
+  newMonthRate Float    @default(0.0) // Price at the time of record
+  newDailyRate Float    @default(0.0) // Price at the time of record
+  recordedAt   DateTime @default(now()) // Date when the price was set
+
+  unitId String
+  unit   Unit   @relation(fields: [unitId], references: [id])
+
+  currencyId String
+  currency   Currency @relation(fields: [currencyId], references: [id])
+}
+
+// ******************************************************************
+// CONTACT  - EMPLOEYEES
+// ******************************************************************
+model Employee {
+  id               String            @id @default(uuid())
+  name             String            @unique
+  accessPrivileges AccessPrivilege[]
+}
+
+model AccessPrivilege {
+  id         String   @id @default(uuid())
+  privilege  String // e.g., "admin", "read_only"
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+}
+
+model Customer {
+  id     String         @id @default(uuid())
+  name   String         @unique // Full name of the customer.
+  status CustomerStatus @default(POTENTIAL_TENANT)
 }
 
 // ******************************************************************
@@ -59,4 +125,16 @@ enum Block {
   B
   C
   D
+}
+
+enum CustomerStatus {
+  POTENTIAL_TENANT // Customer has shown interest but hasn't rented yet.
+  TENANT // Customer is currently renting a unit.
+  EX_TENANT // Customer has previously rented but doesn't currently.
+}
+
+enum ContractStatus {
+  INQUIRY
+  ACTIVE
+  RELEASED
 }

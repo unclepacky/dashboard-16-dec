@@ -6,8 +6,6 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import UpdateProperty from './update-property';
-import DeleteProperty from './delete-property';
 import DeleteBuilding from './delete-building';
 import UpdateBuilding from './update-building';
 

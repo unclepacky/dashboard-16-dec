@@ -30,7 +30,6 @@ export default function StatusSelect({ status }: { status: UnitStatus }) {
             params.append('orderBy', searchParams.get('orderBy') || '');
           }
 
-          console.log('PARAMS', params.toString());
           const query = params.size ? `?${params.toString()}` : '';
           router.push(`/dashboard/dummy${query}`);
         }}
