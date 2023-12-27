@@ -66,6 +66,8 @@ model Unit {
 
   buildingId String
   building   Building @relation(fields: [buildingId], references: [id])
+
+  Contract Contract[]
 }
 
 model RateHistory {
@@ -101,6 +103,27 @@ model Customer {
   id     String         @id @default(uuid())
   name   String         @unique // Full name of the customer.
   status CustomerStatus @default(POTENTIAL_TENANT)
+
+  contract Contract[]
+}
+
+// ******************************************************************
+// CLIENT FORM - INQUIRY / CONTRACT
+// ******************************************************************
+model Contract {
+  id        String       @id @default(uuid())
+  type      ContractType @default(ACTIVE)
+  startDate DateTime     @default(now())
+  endDate   DateTime
+  deposit   Float        @default(0)
+
+  unitId String
+  unit   Unit   @relation(fields: [unitId], references: [id])
+
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id])
+
+  createdAt DateTime @default(now())
 }
 
 // ******************************************************************
@@ -133,8 +156,10 @@ enum CustomerStatus {
   EX_TENANT // Customer has previously rented but doesn't currently.
 }
 
-enum ContractStatus {
+enum ContractType {
   INQUIRY
   ACTIVE
+  INACTIVE
   RELEASED
+  RESERVED
 }

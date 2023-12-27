@@ -7,6 +7,7 @@ import {
   CogIcon,
   ComputerDesktopIcon,
   CurrencyDollarIcon,
+  ClipboardDocumentListIcon,
 } from '@heroicons/react/24/outline';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
@@ -24,6 +25,11 @@ const links = [
   { name: 'Settings', href: '/dashboard/settings', icon: CogIcon },
   { name: 'Dummy', href: '/dashboard/dummy', icon: ComputerDesktopIcon },
   { name: 'Currency', href: '/dashboard/currency', icon: CurrencyDollarIcon },
+  {
+    name: 'Contract',
+    href: '/dashboard/contract',
+    icon: ClipboardDocumentListIcon,
+  },
 ];
 
 export default function NavLinks() {
