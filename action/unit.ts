@@ -65,6 +65,8 @@ export async function updateUnit(formData: FormData) {
   const dailyRate = Number(formData.get('defaultDailyRate'));
   const monthlyRate = Number(formData.get('defaultMonthlyRate'));
 
+  // console.log(formData);
+
   const bld = await prisma.building.findUnique({
     where: {
       name: building,
@@ -111,7 +113,7 @@ export async function updateUnit(formData: FormData) {
   }
 
   revalidatePath(`/dashboard/settings/unit/${id}`);
-  redirect('/dashboard/settings');
+  redirect('/dashboard/dummy');
 }
 
 export async function updateRate(formData: FormData) {

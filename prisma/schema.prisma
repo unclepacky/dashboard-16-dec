@@ -20,6 +20,7 @@ model Currency {
   conversionRateLogs CurrencyConversionRate[]
   unit               Unit[]
   rateHistory        RateHistory[] // Reverse relation to PriceHistory
+  Contract           Contract[]
 }
 
 model CurrencyConversionRate {
@@ -56,16 +57,18 @@ model Unit {
   type        UnitType   @default(STUDIO)
   status      UnitStatus @default(VACANT)
   block       Block      @default(A)
-  monthlyRate Float      @default(0.0) // Most recent default price in USD
-  dailyRate   Float      @default(0.0) // Most recent default daily rate in USD
+  monthlyRate Float      @default(0) // Most recent default price in USD
+  dailyRate   Float      @default(0) // Most recent default daily rate in USD
 
   rateHistory RateHistory[]
 
   currencyId String   @default("e69607d7-71d6-429d-b15e-d220201e7a20")
   currency   Currency @relation(fields: [currencyId], references: [id])
 
-  buildingId String
+  buildingId String   @default("77159616-0c50-4bd2-a708-2391b45debe5")
   building   Building @relation(fields: [buildingId], references: [id])
+
+  updatedAt DateTime @updatedAt
 
   Contract Contract[]
 }
@@ -77,7 +80,7 @@ model RateHistory {
   recordedAt   DateTime @default(now()) // Date when the price was set
 
   unitId String
-  unit   Unit   @relation(fields: [unitId], references: [id])
+  unit   Unit   @relation(fields: [unitId], references: [id], onDelete: Cascade)
 
   currencyId String
   currency   Currency @relation(fields: [currencyId], references: [id])
@@ -116,14 +119,19 @@ model Contract {
   startDate DateTime     @default(now())
   endDate   DateTime
   deposit   Float        @default(0)
+  amount    Float        @default(0)
+
+  currencyId String
+  currency   Currency @relation(fields: [currencyId], references: [id])
 
   unitId String
-  unit   Unit   @relation(fields: [unitId], references: [id])
+  unit   Unit   @relation(fields: [unitId], references: [id], onDelete: Cascade)
 
   customerId String?
   customer   Customer? @relation(fields: [customerId], references: [id])
 
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // ******************************************************************
