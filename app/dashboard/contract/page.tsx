@@ -32,7 +32,6 @@ export default async function ContractsPage({
       : undefined;
 
   if (!searchParams.orderBy) {
-    console.log('searchParams.orderBy= ', searchParams.orderBy);
     orderBy = { ['name']: 'asc' };
   }
 

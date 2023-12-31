@@ -4,12 +4,8 @@ import prisma from '@/prisma/client';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-export async function addContract(formData: FormData) {
-  console.log(formData);
-}
+export async function addContract(formData: FormData) {}
 export async function createUnitContract(formData: FormData) {
-  console.log(formData);
-
   // TODO when creating a contract
   // - Make unit Occupied
   // - Customer to become Tenant
@@ -58,7 +54,6 @@ export async function createUnitContract(formData: FormData) {
 }
 
 export async function releaseContract({ id }: { id: string }) {
-  console.log('ID IN RELEASE IS : ', id);
   const contract = await prisma.contract.update({
     where: {
       id: id,

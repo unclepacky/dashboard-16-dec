@@ -19,7 +19,7 @@ export default async function ListCustomers() {
   return (
     <div className="relative overflow-x-auto">
       <table className="w-1/2 text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
-        <caption>List of Customers</caption>
+        <caption className="text-left">List of Customers</caption>
 
         <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
           <tr>

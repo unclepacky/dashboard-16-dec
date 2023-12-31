@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Unit" ALTER COLUMN "dailyRate" SET DEFAULT 400,
+ALTER COLUMN "monthlyRate" SET DEFAULT 600;

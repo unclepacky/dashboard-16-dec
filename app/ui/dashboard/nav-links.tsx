@@ -1,5 +1,7 @@
 'use client';
 import Link from 'next/link';
+import { GrTransaction } from 'react-icons/gr';
+
 import {
   UserGroupIcon,
   HomeIcon,
@@ -29,6 +31,11 @@ const links = [
     name: 'Contract',
     href: '/dashboard/contract',
     icon: ClipboardDocumentListIcon,
+  },
+  {
+    name: 'Transaction',
+    href: '/dashboard/transaction',
+    icon: GrTransaction,
   },
 ];
 

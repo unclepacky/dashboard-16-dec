@@ -7,7 +7,7 @@ export default function CreateCustomer() {
     <div className="relative overflow-x-auto">
       <form action={addCustomer}>
         <table className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
-          <caption>Create a Customer</caption>
+          <caption className="text-left">Create a Customer</caption>
           <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-3 py-3">

@@ -5,11 +5,18 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { Block, UnitStatus, UnitType } from '@prisma/client';
 
 export default async function UnitPage() {
+  const unit = await prisma.unit.findFirst({
+    select: {
+      dailyRate: true,
+      monthlyRate: true,
+    },
+  });
+
   const currencies = await prisma.currency.findMany();
 
   const buildings = await prisma.building.findMany({
     include: {
-      unit: true
+      unit: true,
     },
   });
 
@@ -95,6 +102,7 @@ export default async function UnitPage() {
           ))}
         </select>
         <input
+          defaultValue={unit?.dailyRate}
           name="defaultDailyRate"
           type="number"
           step="0.01"
@@ -104,6 +112,7 @@ export default async function UnitPage() {
           className="peer block rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500 md:w-1/2"
         />
         <input
+          defaultValue={unit?.monthlyRate}
           name="defaultMonthlyRate"
           type="number"
           step="0.01"
